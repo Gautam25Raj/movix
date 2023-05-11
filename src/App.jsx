@@ -18,11 +18,18 @@ function App() {
   const { url } = useSelector((state) => state.home);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchDataFromApi('/movie/popular');
-      dispatch(getApiConfiguration(data));
+    const fetchApiConfig = async () => {
+      const res = await fetchDataFromApi('/configuration');
+
+      const url = {
+        backdrop: res.images.secure_base_url + 'original',
+        poster: res.images.secure_base_url + 'original',
+        profile: res.images.secure_base_url + 'original',
+      };
+
+      dispatch(getApiConfiguration(url));
     };
-    fetchData();
+    fetchApiConfig();
   }, []);
 
   return (
